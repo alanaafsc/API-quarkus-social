@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public class ResponseError {
     private String message;
-    private Collection<FieldError> erros;
+    private Collection<FieldError> errors;
 
-    public ResponseError(String message, Collection<FieldError> erros) {
+    public ResponseError(String message, Collection<FieldError> errors) {
         this.message = message;
-        this.erros = erros;
+        this.errors = errors;
     }
 
     public static <T> ResponseError createFromValidation(Set<ConstraintViolation<T>> violations){
@@ -33,11 +33,11 @@ public class ResponseError {
         this.message = message;
     }
 
-    public Collection<FieldError> getErros() {
-        return erros;
+    public Collection<FieldError> getErrors() {
+        return errors;
     }
 
-    public void setErros(Collection<FieldError> erros) {
-        this.erros = erros;
+    public void setErrors(Collection<FieldError> errors) {
+        this.errors = errors;
     }
 }
