@@ -4,7 +4,7 @@
 A partir do curso <a href ="https://www.udemy.com/course/aprenda-quarkus-e-desenvolva-apis-restful-poderosas-em-java/"> Aprenda Quarkus e Desenvolva API's RESTful Poderosas em Java</a> foi construido o projeto com o framework Quarkus para criação de uma rede social simples, onde os usuários podem enviar textos pequenos e podem seguir uns aos outros. 
 
 ## Quarkus
-Quarkus é um framework Open Source mantido pela Red Hat que torna o desenvolvimento em Java rápido, com utilização de memória incrivelmente baixo e tempo de boot incrivelmente rápido.
+Quarkus é um framework Open Source mantido pela Red Hat que torna o desenvolvimento em Java rápido, com utilização de memória baixo e tempo de boot rápido.
 
 ## API's:
 
