@@ -1,10 +1,14 @@
 package io.github.alanaafsc.quarkussocial.rest;
 
 import io.github.alanaafsc.quarkussocial.rest.dto.CreateUserRequest;
+import io.github.alanaafsc.quarkussocial.rest.dto.ResponseError;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,5 +31,27 @@ class UserResourceTest {
                         .extract().response();
         assertEquals(201, response.statusCode());
         assertNotNull(response.jsonPath().getString("id"));
+    }
+
+    @Test
+    @DisplayName("Should return error when json is not valid")
+    public void createUserValidationErrorTest(){
+        var user = new CreateUserRequest();
+        user.setAge(null);
+        user.setName(null);
+        var response =
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(user)
+                .when()
+                        .post("/users")
+                .then()
+                        .extract().response();
+        assertEquals(ResponseError.UNPROCESSABLE_ENTITY_STATUS, response.statusCode());
+        assertEquals("Validation Error", response.jsonPath().getString("message"));
+
+        List<Map<String, String>> errors = response.jsonPath().getList("errors");
+        assertNotNull(errors.get(0).get("message"));
+        assertNotNull(errors.get(1).get("message"));
     }
 }
