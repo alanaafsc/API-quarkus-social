@@ -73,7 +73,7 @@ class FollowerResourceTest {
     }
 
     @Test
-    @DisplayName("should return 404 on follow a user when userId is not found")
+    @DisplayName("should return 404 on follow an user when userId is not found")
     public void userNotFoundWhenTryingToFollowTest(){
         var body = new FollowerRequest();
         body.setFollowerId(userId);
@@ -90,7 +90,7 @@ class FollowerResourceTest {
     }
 
     @Test
-    @DisplayName("should follow a user")
+    @DisplayName("should follow an user")
     public void followUserTest(){
         var body = new FollowerRequest();
         body.setFollowerId(followerId);
@@ -121,7 +121,7 @@ class FollowerResourceTest {
     }
 
     @Test
-    @DisplayName("should list a user's followers")
+    @DisplayName("should list an user's followers")
     public void listFollowersTest(){
         var response =
                 given()
@@ -136,6 +136,34 @@ class FollowerResourceTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.statusCode());
         assertEquals(1, followersCount);
         assertEquals(1, followersContent.size());
+    }
+
+    @Test
+    @DisplayName("should return 404 on unfollow user and user id doesn't exist")
+    public void userNotFoundWhenUnfollowingAUserTest(){
+
+        var nonExistentUserId = 999;
+
+        given()
+            .pathParam("userId", nonExistentUserId)
+            .queryParam("followerId", followerId)
+        .when()
+            .delete()
+        .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("should unfollow an user")
+    public void unfollowUserTest(){
+
+        given()
+            .pathParam("userId", userId)
+            .queryParam("followerId", followerId)
+        .when()
+            .delete()
+        .then()
+            .statusCode(Response.Status.NO_CONTENT.getStatusCode());
     }
 
 }
