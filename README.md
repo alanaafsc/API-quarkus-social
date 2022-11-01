@@ -16,3 +16,18 @@ API para posts que vai representar as postagens dos usuários, que serão em for
 
 #### FOLLOWERS
 API de followers para que os usuários possam ter seguidores e também seguir os outros usuários para que possa visualizar suas postagens. Haverá também a opção de deixar de seguir o usuário. 
+
+## Ferramentas Utilizadas
+ - Insomnia
+ - IntelliJ
+ - Apache Maven
+ - pgAdmin
+ 
+ ## Extensões
+ - quarkus-resteasy
+ - quarkus-resteasy-jsonb
+ - hibernate-validator
+ - hibernate-orm-panache
+ - lombok
+ - smallrye-openapi
+ 
