@@ -1,6 +1,5 @@
-package io.github.alanaafsc.quarkussocial.domain.model;
+package io.github.alanaafsc.quarkussocial.model;
 
-import jdk.jfr.Unsigned;
 import lombok.Data;
 
 import javax.persistence.*;

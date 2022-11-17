@@ -1,12 +1,12 @@
-package io.github.alanaafsc.quarkussocial.rest;
+package io.github.alanaafsc.quarkussocial.controller;
 
-import io.github.alanaafsc.quarkussocial.domain.model.Post;
-import io.github.alanaafsc.quarkussocial.domain.model.User;
-import io.github.alanaafsc.quarkussocial.domain.repository.FollowerRepository;
-import io.github.alanaafsc.quarkussocial.domain.repository.PostRepository;
-import io.github.alanaafsc.quarkussocial.domain.repository.UserRepository;
-import io.github.alanaafsc.quarkussocial.rest.dto.CreatePostRequest;
-import io.github.alanaafsc.quarkussocial.rest.dto.PostResponse;
+import io.github.alanaafsc.quarkussocial.dto.CreatePostRequest;
+import io.github.alanaafsc.quarkussocial.dto.PostResponse;
+import io.github.alanaafsc.quarkussocial.model.Post;
+import io.github.alanaafsc.quarkussocial.model.User;
+import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
+import io.github.alanaafsc.quarkussocial.repository.PostRepository;
+import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 import io.quarkus.panache.common.Sort;
 
 import javax.inject.Inject;
@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.lang.annotation.Repeatable;
 import java.util.stream.Collectors;
 
 @Path("/users/{userId}/posts")

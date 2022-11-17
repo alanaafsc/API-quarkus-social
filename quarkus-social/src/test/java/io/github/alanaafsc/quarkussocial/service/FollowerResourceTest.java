@@ -1,10 +1,11 @@
-package io.github.alanaafsc.quarkussocial.rest;
+package io.github.alanaafsc.quarkussocial.service;
 
-import io.github.alanaafsc.quarkussocial.domain.model.Follower;
-import io.github.alanaafsc.quarkussocial.domain.model.User;
-import io.github.alanaafsc.quarkussocial.domain.repository.FollowerRepository;
-import io.github.alanaafsc.quarkussocial.domain.repository.UserRepository;
-import io.github.alanaafsc.quarkussocial.rest.dto.FollowerRequest;
+import io.github.alanaafsc.quarkussocial.controller.FollowerResource;
+import io.github.alanaafsc.quarkussocial.model.Follower;
+import io.github.alanaafsc.quarkussocial.model.User;
+import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
+import io.github.alanaafsc.quarkussocial.repository.UserRepository;
+import io.github.alanaafsc.quarkussocial.dto.FollowerRequest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;

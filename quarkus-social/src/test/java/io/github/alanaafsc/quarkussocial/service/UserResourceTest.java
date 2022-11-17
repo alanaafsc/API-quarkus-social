@@ -1,7 +1,7 @@
-package io.github.alanaafsc.quarkussocial.rest;
+package io.github.alanaafsc.quarkussocial.service;
 
-import io.github.alanaafsc.quarkussocial.rest.dto.CreateUserRequest;
-import io.github.alanaafsc.quarkussocial.rest.dto.ResponseError;
+import io.github.alanaafsc.quarkussocial.dto.CreateUserRequest;
+import io.github.alanaafsc.quarkussocial.dto.ResponseError;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;

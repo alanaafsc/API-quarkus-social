@@ -1,4 +1,4 @@
-package io.github.alanaafsc.quarkussocial.domain.model;
+package io.github.alanaafsc.quarkussocial.model;
 
 import lombok.Data;
 

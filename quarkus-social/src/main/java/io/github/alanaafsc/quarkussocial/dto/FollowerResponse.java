@@ -1,6 +1,6 @@
-package io.github.alanaafsc.quarkussocial.rest.dto;
+package io.github.alanaafsc.quarkussocial.dto;
 
-import io.github.alanaafsc.quarkussocial.domain.model.Follower;
+import io.github.alanaafsc.quarkussocial.model.Follower;
 import lombok.Data;
 
 @Data

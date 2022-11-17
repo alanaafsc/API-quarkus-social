@@ -1,12 +1,12 @@
-package io.github.alanaafsc.quarkussocial.rest;
+package io.github.alanaafsc.quarkussocial.service;
 
-import io.github.alanaafsc.quarkussocial.domain.model.Follower;
-import io.github.alanaafsc.quarkussocial.domain.model.Post;
-import io.github.alanaafsc.quarkussocial.domain.model.User;
-import io.github.alanaafsc.quarkussocial.domain.repository.FollowerRepository;
-import io.github.alanaafsc.quarkussocial.domain.repository.PostRepository;
-import io.github.alanaafsc.quarkussocial.domain.repository.UserRepository;
-import io.github.alanaafsc.quarkussocial.rest.dto.CreatePostRequest;
+import io.github.alanaafsc.quarkussocial.model.Follower;
+import io.github.alanaafsc.quarkussocial.model.Post;
+import io.github.alanaafsc.quarkussocial.model.User;
+import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
+import io.github.alanaafsc.quarkussocial.repository.PostRepository;
+import io.github.alanaafsc.quarkussocial.repository.UserRepository;
+import io.github.alanaafsc.quarkussocial.dto.CreatePostRequest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -20,10 +20,9 @@ import javax.transaction.Transactional;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.post;
-import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-@TestHTTPEndpoint(PostResource.class)
+@TestHTTPEndpoint(PostService.class)
 class PostResourceTest {
 
     @Inject
