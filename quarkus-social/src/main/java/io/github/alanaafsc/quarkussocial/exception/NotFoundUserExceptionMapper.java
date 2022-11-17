@@ -5,7 +5,7 @@ import io.github.alanaafsc.quarkussocial.exception.NotFoundUserException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class MyApplicationExceptionHandler implements ExceptionMapper<NotFoundUserException> {
+public class NotFoundUserExceptionMapper implements ExceptionMapper<NotFoundUserException> {
 
     @Override
     public Response toResponse(NotFoundUserException exception) {

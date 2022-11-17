@@ -1,5 +1,8 @@
 package io.github.alanaafsc.quarkussocial.service;
 
+import io.github.alanaafsc.quarkussocial.exception.FollowsException;
+import io.github.alanaafsc.quarkussocial.exception.NoFollowerException;
+import io.github.alanaafsc.quarkussocial.exception.NotFoundUserException;
 import io.github.alanaafsc.quarkussocial.model.Post;
 import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
@@ -11,15 +14,15 @@ import io.quarkus.panache.common.Sort;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/users/{userId}/posts")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class PostService {
+
+    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
+    public static final String MESSAGE_FORGOT_FOLLOWER_HEADER = "You forgot the header followerId";
+    public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
+    public static final String MESSAGE_FOLLOWS = "You can't see these posts";
 
     @Inject
     private UserRepository userRepository;
@@ -28,44 +31,42 @@ public class PostService {
     @Inject
     private FollowerRepository followerRepository;
 
-
-    @POST
     @Transactional
-    public Response savePost(@PathParam("userId") Long userId, CreatePostRequest request){
+    public void save(Long userId, CreatePostRequest request){
         User user = userRepository.findById(userId);
         if(user == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
         Post post = new Post();
         post.setText(request.getText());
         post.setUser(user);
         repository.persist(post);
-
-        return Response.status(Response.Status.CREATED).build();
     }
 
-    @GET
-    public Response listPosts(@PathParam("userId") Long userId, @HeaderParam("followerId") Long followerId){
+    public List<PostResponse> listAllPosts(Long userId, Long followerId){
         User user = userRepository.findById(userId);
         if(user == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
 
         if(followerId == null){
-            return Response.status(Response.Status.BAD_REQUEST).
-                    entity("You forgot the header followerId").build();
+            throw new NoFollowerException(MESSAGE_FORGOT_FOLLOWER_HEADER);
+          //  return Response.status(Response.Status.BAD_REQUEST).
+  //                  entity("You forgot the header followerId").build();
         }
 
         User follower = userRepository.findById(followerId);
         if(follower == null){
-            return Response.status(Response.Status.BAD_REQUEST).
-                    entity("inexistent followerId").build();
+            throw new NoFollowerException(MESSAGE_FOLLOWER_NOT_FOUND);
+            //return Response.status(Response.Status.BAD_REQUEST).
+           //         entity("inexistent followerId").build();
         }
 
         boolean follows = followerRepository.follows(follower, user);
         if(!follows){
-            return Response.status(Response.Status.FORBIDDEN).
-                    entity("You can't see these posts").build();
+            throw new FollowsException(MESSAGE_FOLLOWS);
+          //  return Response.status(Response.Status.FORBIDDEN).
+             //       entity("You can't see these posts").build();
         }
 
         var query = repository.
@@ -75,6 +76,6 @@ public class PostService {
         var postResponseList = list.stream().map(post -> PostResponse.fromEntity(post)).
                 collect(Collectors.toList());
 
-        return Response.ok(postResponseList).build();
+        return postResponseList;
     }
 }
