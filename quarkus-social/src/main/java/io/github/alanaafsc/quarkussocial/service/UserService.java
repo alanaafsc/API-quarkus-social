@@ -21,8 +21,6 @@ import java.util.Set;
 @ApplicationScoped
 public class UserService {
 
-    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
-
     @Inject
     private UserRepository repository;
 
@@ -68,7 +66,7 @@ public class UserService {
         }
         return Response.status(Response.Status.NOT_FOUND).build(); */
         if(user == null){
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
 
         repository.delete(user);
@@ -78,7 +76,7 @@ public class UserService {
     public void update(Long id, CreateUserRequest userData){
         User user = repository.findById(id);
         if (user == null) {
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
             user.setName(userData.getName());
             user.setAge(userData.getAge());

@@ -3,6 +3,9 @@ package io.github.alanaafsc.quarkussocial.service;
 import io.github.alanaafsc.quarkussocial.dto.FollowerRequest;
 import io.github.alanaafsc.quarkussocial.dto.FollowerResponse;
 import io.github.alanaafsc.quarkussocial.dto.FollowersPerUseResponse;
+import io.github.alanaafsc.quarkussocial.exception.NoFollowerException;
+import io.github.alanaafsc.quarkussocial.exception.NotFoundUserException;
+import io.github.alanaafsc.quarkussocial.exception.UserEqualsFollowerException;
 import io.github.alanaafsc.quarkussocial.model.Follower;
 import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
@@ -10,11 +13,12 @@ import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 import java.util.stream.Collectors;
 
 
 public class FollowerService {
+
+    public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
 
     @Inject
     private FollowerRepository repository;
@@ -24,18 +28,21 @@ public class FollowerService {
 
 
     @Transactional
-    public Response followUser(Long userId, FollowerRequest request){
+    public void follow(Long userId, FollowerRequest request){
 
         if(userId.equals(request.getFollowerId())){
-            return Response.status(Response.Status.CONFLICT).entity("You can't follow yourself!").build();
+            throw new UserEqualsFollowerException();
+           // return Response.status(Response.Status.CONFLICT).entity("You can't follow yourself!").build();
         }
 
         User user = userRepository.findById(userId);
         if(user == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundUserException();
         }
         var follower = userRepository.findById(request.getFollowerId());
-
+        if(follower == null) {
+            throw new NoFollowerException(MESSAGE_FOLLOWER_NOT_FOUND);
+        }
         boolean follows = repository.follows(follower, user);
 
         if(!follows){
@@ -45,32 +52,33 @@ public class FollowerService {
 
             repository.persist(entity);
         }
-        return Response.status(Response.Status.NO_CONTENT).build();
+       // return Response.status(Response.Status.NO_CONTENT).build();
     }
 
-    public Response listFollowers(Long userId){
+    public FollowersPerUseResponse listAll(Long userId){
 
         User user = userRepository.findById(userId);
         if(user == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundUserException();
         }
 
         var list = repository.findByUser(userId);
+
         FollowersPerUseResponse responseObject = new FollowersPerUseResponse();
         responseObject.setFollowersCount(list.size());
         var followersList = list.stream().map(FollowerResponse::new).
                 collect(Collectors.toList());
         responseObject.setContent(followersList);
-        return Response.ok(responseObject).build();
+        return responseObject;
     }
 
     @Transactional
-    public Response unfollowUser(Long userId, Long followerId){
+    public void unfollow(Long userId, Long followerId){
         User user = userRepository.findById(userId);
         if(user == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+           throw new NotFoundUserException();
         }
         repository.deleteByFollowerAndUser(followerId, userId);
-        return Response.status(Response.Status.NO_CONTENT).build();
+      //  return Response.status(Response.Status.NO_CONTENT).build();
     }
 }
