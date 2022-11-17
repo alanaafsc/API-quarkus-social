@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 @Path("/users/{userId}/followers")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class FollowerResource {
+public class FollowerController {
 
     @Inject
     FollowerService followerService;
