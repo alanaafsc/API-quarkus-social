@@ -2,19 +2,17 @@ package io.github.alanaafsc.quarkussocial.service;
 
 import io.github.alanaafsc.quarkussocial.controller.UserController;
 import io.github.alanaafsc.quarkussocial.dto.CreateUserRequest;
-import io.github.alanaafsc.quarkussocial.dto.ResponseError;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
-import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.alanaafsc.quarkussocial.exception.ConstraintViolationExceptionMapper.UNPROCESSABLE_ENTITY_STATUS;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +56,7 @@ class UserResourceTest {
                         .post()
                 .then()
                         .extract().response();
-        assertEquals(ResponseError.UNPROCESSABLE_ENTITY_STATUS, response.statusCode());
+        assertEquals(UNPROCESSABLE_ENTITY_STATUS, response.statusCode());
 
         List<Map<String, String>> errors = response.jsonPath().getList("violacoes");
         assertNotNull(errors.get(0).get("mensagem"));
@@ -74,7 +72,6 @@ class UserResourceTest {
         .when()
             .get()
         .then()
-            .statusCode(200)
-            .body("size()", Matchers.is(1));
+            .statusCode(200);
     }
 }

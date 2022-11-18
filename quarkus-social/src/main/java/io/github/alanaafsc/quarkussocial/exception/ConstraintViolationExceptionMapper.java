@@ -5,11 +5,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import static io.github.alanaafsc.quarkussocial.dto.ResponseError.UNPROCESSABLE_ENTITY_STATUS;
-
 
 @Provider
 public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
+    public final static int UNPROCESSABLE_ENTITY_STATUS = 422;
 
     @Override
     public Response toResponse(ConstraintViolationException exception) {
