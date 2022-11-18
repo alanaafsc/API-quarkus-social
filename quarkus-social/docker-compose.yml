@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  postgres_social:
+    container_name: postgres_social
+    image: postgres:14
+    environment:
+      POSTGRES_USER: social
+      POSTGRES_PASSWORD: social
+      POSTGRES_DATABASE: quarkus-social
+    ports:
+      - "5435:5432"

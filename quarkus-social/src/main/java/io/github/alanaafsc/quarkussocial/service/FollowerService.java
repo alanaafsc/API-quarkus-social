@@ -11,21 +11,22 @@ import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
 import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
-
+@ApplicationScoped
 public class FollowerService {
 
     public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
 
     @Inject
-    private FollowerRepository repository;
+    FollowerRepository repository;
 
     @Inject
-    private UserRepository userRepository;
-
+    UserRepository userRepository;
+    //deu erro estando "public" n sei pq, entao tirei; mesma coisa nos outros services
 
     @Transactional
     public void follow(Long userId, FollowerRequest request){

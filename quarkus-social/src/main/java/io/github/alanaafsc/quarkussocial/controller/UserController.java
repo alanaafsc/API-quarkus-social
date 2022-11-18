@@ -1,21 +1,14 @@
 package io.github.alanaafsc.quarkussocial.controller;
 
 import io.github.alanaafsc.quarkussocial.dto.CreateUserRequest;
-import io.github.alanaafsc.quarkussocial.dto.ResponseError;
 import io.github.alanaafsc.quarkussocial.model.User;
-import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 import io.github.alanaafsc.quarkussocial.service.UserService;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Set;
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)

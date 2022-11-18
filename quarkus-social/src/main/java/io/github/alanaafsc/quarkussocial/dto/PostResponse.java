@@ -1,11 +1,10 @@
 package io.github.alanaafsc.quarkussocial.dto;
 
 import io.github.alanaafsc.quarkussocial.model.Post;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
+
 public class PostResponse {
     private String text;
     private LocalDateTime dateTime;
@@ -15,5 +14,21 @@ public class PostResponse {
         response.setText(post.getText());
         response.setDateTime(post.getDateTime());
         return response;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

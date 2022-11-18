@@ -1,6 +1,5 @@
 package io.github.alanaafsc.quarkussocial.service;
 
-import io.github.alanaafsc.quarkussocial.controller.FollowerResource;
 import io.github.alanaafsc.quarkussocial.model.Follower;
 import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
@@ -20,7 +19,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-@TestHTTPEndpoint(FollowerResource.class)
+@TestHTTPEndpoint(FollowerService.class)
 class FollowerResourceTest {
 
     @Inject
