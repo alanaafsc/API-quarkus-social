@@ -1,5 +1,6 @@
 package io.github.alanaafsc.quarkussocial.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

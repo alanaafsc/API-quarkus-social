@@ -1,6 +1,7 @@
 package io.github.alanaafsc.quarkussocial.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "users")
@@ -27,10 +28,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
     }
 
     public void setAge(Integer age) {

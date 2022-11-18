@@ -10,6 +10,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -18,11 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @ApplicationScoped
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class UserService {
-
-    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
 
     @Inject
     UserRepository repository;
@@ -30,16 +28,13 @@ public class UserService {
     @Inject
     Validator validator;
 
-
     @Transactional
-    public User saveUser(CreateUserRequest userRequest){
+    public User saveUser(@Valid CreateUserRequest userRequest){
 
-        Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
-       /* if(!violations.isEmpty()){
-            return ResponseError.createFromValidation(violations).
-                    withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
-        } */
-        //setar excecao para erro de validacao aqui =========================================================
+//        Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
+//        if(!violations.isEmpty()){
+//            throw new ConstraintViolationException(violations);
+//        }
 
         User user = new User();
         user.setAge(userRequest.getAge());
@@ -69,7 +64,7 @@ public class UserService {
         }
         return Response.status(Response.Status.NOT_FOUND).build(); */
         if(user == null){
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
 
         repository.delete(user);
@@ -79,7 +74,7 @@ public class UserService {
     public void update(Long id, CreateUserRequest userData){
         User user = repository.findById(id);
         if (user == null) {
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
             user.setName(userData.getName());
             user.setAge(userData.getAge());

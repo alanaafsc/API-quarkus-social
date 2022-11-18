@@ -5,4 +5,6 @@ public class FollowsException extends RuntimeException {
         super(message);
     }
 
+    public FollowsException() {}
+
 }

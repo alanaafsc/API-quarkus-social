@@ -20,12 +20,10 @@ import javax.ws.rs.core.MediaType;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class FollowerService {
 
-    public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
-    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
+    private static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
+    private static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
 
     @Inject
     FollowerRepository repository;
@@ -38,7 +36,7 @@ public class FollowerService {
     public void follow(Long userId, FollowerRequest request){
 
         if(userId.equals(request.getFollowerId())){
-            throw new UserEqualsFollowerException("You can't follow yourself!");
+            throw new UserEqualsFollowerException();
            // return Response.status(Response.Status.CONFLICT).entity("You can't follow yourself!").build();
         }
 

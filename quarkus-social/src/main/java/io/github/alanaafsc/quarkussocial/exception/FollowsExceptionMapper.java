@@ -10,6 +10,6 @@ public class FollowsExceptionMapper implements ExceptionMapper<FollowsException>
 
     @Override
     public Response toResponse(FollowsException exception) {
-        return Response.status(Response.Status.FORBIDDEN).entity(exception.getMessage()).build();
+        return Response.status(Response.Status.FORBIDDEN).entity(new ExceptionResponse(exception.getMessage())).build();
     }
 }

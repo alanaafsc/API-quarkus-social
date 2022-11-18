@@ -22,15 +22,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public class PostService {
 
-    public static final String MESSAGE_FORGOT_FOLLOWER_HEADER = "You forgot the header followerId";
-    public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
-    public static final String MESSAGE_FOLLOWS = "You can't see these posts";
-
-    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
+    private static final String MESSAGE_FORGOT_FOLLOWER_HEADER = "You forgot the header followerId";
+    private static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
+    private static final String MESSAGE_FOLLOWS = "You can't see these posts";
 
     @Inject
     UserRepository userRepository;
@@ -43,7 +39,7 @@ public class PostService {
     public void save(Long userId, CreatePostRequest request){
         User user = userRepository.findById(userId);
         if(user == null){
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
         Post post = new Post();
         post.setText(request.getText());
@@ -54,7 +50,7 @@ public class PostService {
     public List<PostResponse> listAllPosts(Long userId, Long followerId){
         User user = userRepository.findById(userId);
         if(user == null){
-            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
+            throw new NotFoundUserException();
         }
 
         if(followerId == null){

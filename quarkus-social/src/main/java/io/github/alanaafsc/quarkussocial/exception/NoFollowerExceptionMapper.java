@@ -9,7 +9,7 @@ public class NoFollowerExceptionMapper implements ExceptionMapper<NoFollowerExce
 
     @Override
     public Response toResponse(NoFollowerException exception) {
-        return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(new ExceptionResponse(exception.getMessage())).build();
     }
 
 }

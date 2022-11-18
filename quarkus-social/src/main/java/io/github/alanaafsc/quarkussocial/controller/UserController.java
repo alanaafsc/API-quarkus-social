@@ -5,6 +5,7 @@ import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.service.UserService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,7 +20,7 @@ public class UserController {
     UserService userService;
 
     @POST
-    public Response createUser(CreateUserRequest userRequest){
+    public Response createUser(@Valid CreateUserRequest userRequest){
 
         User user = userService.saveUser(userRequest);
         return Response.status(Response.Status.CREATED.getStatusCode()).entity(user).build();

@@ -5,4 +5,6 @@ public class NoFollowerException extends RuntimeException {
         super(message);
     }
 
+    public NoFollowerException() {}
+
 }
