@@ -15,15 +15,22 @@ import io.quarkus.panache.common.Sort;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class PostService {
 
     public static final String MESSAGE_FORGOT_FOLLOWER_HEADER = "You forgot the header followerId";
     public static final String MESSAGE_FOLLOWER_NOT_FOUND = "Follower Not Found";
     public static final String MESSAGE_FOLLOWS = "You can't see these posts";
+
+    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
 
     @Inject
     UserRepository userRepository;
@@ -36,7 +43,7 @@ public class PostService {
     public void save(Long userId, CreatePostRequest request){
         User user = userRepository.findById(userId);
         if(user == null){
-            throw new NotFoundUserException();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
         Post post = new Post();
         post.setText(request.getText());
@@ -47,7 +54,7 @@ public class PostService {
     public List<PostResponse> listAllPosts(Long userId, Long followerId){
         User user = userRepository.findById(userId);
         if(user == null){
-            throw new NotFoundUserException();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
 
         if(followerId == null){

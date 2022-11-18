@@ -11,11 +11,18 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Set;
 
 @ApplicationScoped
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class UserService {
+
+    public static final String MESSAGE_USER_NOT_FOUND = "User Not Found";
 
     @Inject
     UserRepository repository;
@@ -62,7 +69,7 @@ public class UserService {
         }
         return Response.status(Response.Status.NOT_FOUND).build(); */
         if(user == null){
-            throw new NotFoundUserException();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
 
         repository.delete(user);
@@ -72,7 +79,7 @@ public class UserService {
     public void update(Long id, CreateUserRequest userData){
         User user = repository.findById(id);
         if (user == null) {
-            throw new NotFoundUserException();
+            throw new NotFoundUserException(MESSAGE_USER_NOT_FOUND);
         }
             user.setName(userData.getName());
             user.setAge(userData.getAge());
