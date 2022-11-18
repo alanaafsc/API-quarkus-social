@@ -1,10 +1,12 @@
 package io.github.alanaafsc.quarkussocial.service;
 
+import io.github.alanaafsc.quarkussocial.controller.FollowerController;
 import io.github.alanaafsc.quarkussocial.model.Follower;
 import io.github.alanaafsc.quarkussocial.model.User;
 import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
 import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 import io.github.alanaafsc.quarkussocial.dto.FollowerRequest;
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -19,7 +21,8 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-@TestHTTPEndpoint(FollowerService.class)
+@QuarkusTestResource(QuarkusSocialTestLifeCycleManager.class)
+@TestHTTPEndpoint(FollowerController.class)
 class FollowerResourceTest {
 
     @Inject
@@ -69,7 +72,7 @@ class FollowerResourceTest {
             .put()
         .then()
             .statusCode(Response.Status.CONFLICT.getStatusCode())
-            .body(Matchers.is("You can't follow yourself!"));
+            .body(Matchers.is("{\"error\":\"You can't follow yourself!\"}"));
     }
 
     @Test

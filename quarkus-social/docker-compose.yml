@@ -7,6 +7,5 @@ services:
     environment:
       POSTGRES_USER: social
       POSTGRES_PASSWORD: social
-      POSTGRES_DATABASE: quarkus-social
     ports:
       - "5435:5432"

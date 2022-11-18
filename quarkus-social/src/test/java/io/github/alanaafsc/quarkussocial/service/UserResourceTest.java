@@ -1,7 +1,10 @@
 package io.github.alanaafsc.quarkussocial.service;
 
+import io.github.alanaafsc.quarkussocial.controller.UserController;
 import io.github.alanaafsc.quarkussocial.dto.CreateUserRequest;
 import io.github.alanaafsc.quarkussocial.dto.ResponseError;
+import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -16,11 +19,10 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
+@TestHTTPEndpoint(UserController.class)
+@QuarkusTestResource(QuarkusSocialTestLifeCycleManager.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserResourceTest {
-
-    @TestHTTPResource("/users")
-    URL apiURL;
 
     @Test
     @DisplayName("Should create an user successfully")
@@ -34,7 +36,7 @@ class UserResourceTest {
                         contentType(ContentType.JSON).
                         body(user).
                 when()
-                        .post(apiURL)
+                        .post()
                 .then()
                         .extract().response();
         assertEquals(201, response.statusCode());
@@ -53,15 +55,14 @@ class UserResourceTest {
                         .contentType(ContentType.JSON)
                         .body(user)
                 .when()
-                        .post(apiURL)
+                        .post()
                 .then()
                         .extract().response();
         assertEquals(ResponseError.UNPROCESSABLE_ENTITY_STATUS, response.statusCode());
-        assertEquals("Validation Error", response.jsonPath().getString("message"));
 
-        List<Map<String, String>> errors = response.jsonPath().getList("errors");
-        assertNotNull(errors.get(0).get("message"));
-        assertNotNull(errors.get(1).get("message"));
+        List<Map<String, String>> errors = response.jsonPath().getList("violacoes");
+        assertNotNull(errors.get(0).get("mensagem"));
+        assertNotNull(errors.get(1).get("mensagem"));
     }
 
     @Test
@@ -71,7 +72,7 @@ class UserResourceTest {
         given()
             .contentType(ContentType.JSON)
         .when()
-            .get(apiURL)
+            .get()
         .then()
             .statusCode(200)
             .body("size()", Matchers.is(1));

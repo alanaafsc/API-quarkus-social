@@ -1,5 +1,6 @@
 package io.github.alanaafsc.quarkussocial.service;
 
+import io.github.alanaafsc.quarkussocial.controller.PostController;
 import io.github.alanaafsc.quarkussocial.model.Follower;
 import io.github.alanaafsc.quarkussocial.model.Post;
 import io.github.alanaafsc.quarkussocial.model.User;
@@ -7,6 +8,7 @@ import io.github.alanaafsc.quarkussocial.repository.FollowerRepository;
 import io.github.alanaafsc.quarkussocial.repository.PostRepository;
 import io.github.alanaafsc.quarkussocial.repository.UserRepository;
 import io.github.alanaafsc.quarkussocial.dto.CreatePostRequest;
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -22,7 +24,8 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.post;
 
 @QuarkusTest
-@TestHTTPEndpoint(PostService.class)
+@QuarkusTestResource(QuarkusSocialTestLifeCycleManager.class)
+@TestHTTPEndpoint(PostController.class)
 class PostResourceTest {
 
     @Inject
@@ -99,9 +102,9 @@ class PostResourceTest {
                 .contentType(ContentType.JSON)
                 .body(postRequest)
                 .pathParam("userId", nonExistentUserId)
-                .when()
+        .when()
                 .post()
-                .then()
+        .then()
                 .statusCode(404);
     }
 
@@ -127,7 +130,7 @@ class PostResourceTest {
             .get()
         .then()
             .statusCode(400)
-            .body(Matchers.is("You forgot the header followerId"));
+            .body(Matchers.is("{\"error\":\"You forgot the header followerId\"}"));
     }
 
     @Test
@@ -142,7 +145,7 @@ class PostResourceTest {
             .get()
         .then()
             .statusCode(400)
-            .body(Matchers.is("inexistent followerId"));
+            .body(Matchers.is("{\"error\":\"Follower Not Found\"}"));
     }
 
     @Test
@@ -155,7 +158,7 @@ class PostResourceTest {
             .get()
         .then()
             .statusCode(403)
-            .body(Matchers.is("You can't see these posts"));
+            .body(Matchers.is("{\"error\":\"You can't see these posts\"}"));
     }
 
     @Test
